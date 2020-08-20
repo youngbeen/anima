@@ -42,13 +42,21 @@ anima.init()
 
 That's all! `Anima` will handle the rest.
 
-### Options
+### Documents
 
-For now, you can config animation time for each element.
+#### Config Animation Time
+
+You can config animation time for each element.
 Add `anima-time` attribute to element
 
 > `anima-time` value is consumed with `ms`(milliseconds)
 
 ```html
 <p use-anima anima-time="400">Element</p>
+```
+
+#### Manually Revoke Listeners
+
+```javascript
+anima.revoke()
 ```

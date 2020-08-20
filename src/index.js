@@ -9,11 +9,11 @@
 // TODOs:
 // 内置多种常用动效
 // 动效自定义
-// node过多时的提醒
 
 const TAG = 'use-anima'
 const TAG_TIME = 'anima-time'
 const DEBOUNCE_TIME = 40 // ms
+const WARNING_COUNTS = 100 // 预警侦听数，超过该数字后会警示
 let defaultAnimateTime = 300 // ms
 
 let nodes = []
@@ -83,6 +83,9 @@ const init = () => {
   })
   if (nodes.length) {
     // console.log('binding')
+    if (nodes.length > WARNING_COUNTS) {
+      console.warn('Too many anima elements, you should check if it`s necessary')
+    }
     window.addEventListener('scroll', preVerify)
     // 为了确保首屏视图内的元素正确应用效果，需要直接执行一次
     verify()
