@@ -17,7 +17,7 @@
 Install it via npm
 
 ```shell
-npm i -S '@youngbeen/anima'
+npm i -S @youngbeen/anima
 ```
 
 ### Import
