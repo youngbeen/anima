@@ -2,21 +2,28 @@
 // features:
 // 1. 使用`use-anima`标签属性即可激活默认的动效支持
 // 2. 可选使用`anima-time=""`配置某个标签的动效时间，单位ms。
+// 3. 可选使用`anima-type=""`配置动效类型 'zoom'（默认）, 'fade'
 // EX1. 懒触发（优化性能）
 // EX2. 销毁失效的node侦听（优化性能）
 // EX3. 侦听节点过多给予警示
 
 // TODOs:
-// 内置多种常用动效
+// 增加其他常用动效？
 // 动效自定义
 
 const TAG = 'use-anima'
 const TAG_TIME = 'anima-time'
+const TAG_TYPE = 'anima-type'
 const DEBOUNCE_TIME = 40 // ms
 const WARNING_COUNTS = 100 // 预警侦听数，超过该数字后会警示
 let defaultAnimateTime = 300 // ms
 
-let nodes = []
+let nodes = [
+  // {
+  //   animateType: 'zoom|fade',
+  //   element: <HTMLElement>
+  // }
+]
 let tc = null
 let lastVerifyTime = null
 
@@ -29,14 +36,14 @@ const elementIsVisibleInViewport = (el, partiallyVisible = false) => {
     : top >= 0 && left >= 0 && bottom <= innerHeight && right <= innerWidth
 }
 
-const fixStyle = (el) => {
+const fixStyle = (el, animateType) => {
   el.style.opacity = '0'
-  el.style.transform = 'scale(0.6)'
+  animateType === 'zoom' && (el.style.transform = 'scale(0.6)')
 }
 
-const resumeStyle = (el) => {
+const resumeStyle = (el, animateType) => {
   el.style.opacity = '1'
-  el.style.transform = 'scale(1)'
+  animateType === 'zoom' && (el.style.transform = 'scale(1)')
 }
 
 const preVerify = () => {
@@ -59,11 +66,11 @@ const preVerify = () => {
 
 const verify = () => {
   lastVerifyTime = (new Date()).getTime()
-  nodes.forEach(el => {
-    if (elementIsVisibleInViewport(el, true)) {
-      resumeStyle(el)
+  nodes.forEach(n => {
+    if (elementIsVisibleInViewport(n.element, true)) {
+      resumeStyle(n.element, n.animateType)
     } else {
-      fixStyle(el)
+      fixStyle(n.element, n.animateType)
     }
   })
 }
@@ -77,9 +84,17 @@ const init = () => {
       let effectTime = parseInt(n.getAttribute(TAG_TIME))
       effectTime > 100 && (animateTime = effectTime)
     }
-    fixStyle(n)
+    let animateType = 'zoom'
+    if (n.getAttributeNames().includes(TAG_TYPE)) {
+      // 配置了动效类型
+      animateType = n.getAttribute(TAG_TYPE)
+    }
+    fixStyle(n, animateType)
     n.style.transition = `all ${(animateTime - DEBOUNCE_TIME) / 1000}s`
-    nodes.push(n)
+    nodes.push({
+      animateType,
+      element: n
+    })
   })
   if (nodes.length) {
     // console.log('binding')
@@ -96,8 +111,8 @@ const revoke = () => {
   // console.log('revoking')
   window.removeEventListener('scroll', preVerify)
   // 恢复所有元素的原始样式
-  nodes.forEach(el => {
-    resumeStyle(el)
+  nodes.forEach(n => {
+    resumeStyle(n.element, n.animateType)
   })
   nodes.length && (nodes = [])
 }

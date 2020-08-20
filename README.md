@@ -8,7 +8,7 @@
 ### Features
 
 * Easy to use
-* Config animation time to each element differently
+* Config animation time or animation type for each element
 * Lazy triggering (means effecient)
 * Auto revoking listeners (means effecient)
 
@@ -44,15 +44,25 @@ That's all! `Anima` will handle the rest.
 
 ### Documents
 
-#### Config Animation Time
+#### Config Animation
 
-You can config animation time for each element.
-Add `anima-time` attribute to element
+You can config animation time and animation type for each element.
 
-> `anima-time` value is consumed with `ms`(milliseconds)
+Add `anima-time` attribute to element to config animation time
+> `anima-time` value is consumed in `ms`(milliseconds)
+
+Add `anima-type` attribute to element to config animation type
+> Support `zoom`, `fade`. Default as `zoom`
 
 ```html
+<!-- Config animation time -->
 <p use-anima anima-time="400">Element</p>
+
+<!-- Config animation type -->
+<p use-anima anima-type="fade">Element</p>
+
+<!-- Config animation all together -->
+<p use-anima anima-type="fade" anima-time="1000">Element</p>
 ```
 
 #### Manually Revoke Listeners

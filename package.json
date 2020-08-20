@@ -1,6 +1,6 @@
 {
   "name": "@youngbeen/anima",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Anima is an easy-to-use yet light weight javascript library to animate elements in your page",
   "main": "dist/index.js",
   "scripts": {
