@@ -1,0 +1,28 @@
+{
+  "name": "@youngbeen/anima",
+  "version": "0.1.1",
+  "description": "Anima is an easy-to-use yet light weight javascript library to animate elements in your page",
+  "main": "dist/index.js",
+  "scripts": {
+    "compile": "babel -d ./dist src/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/youngbeen/anima"
+  },
+  "keywords": [
+    "animation",
+    "css",
+    "html",
+    "javascript",
+    "js"
+  ],
+  "author": "youngbeen",
+  "license": "ISC"
+}
